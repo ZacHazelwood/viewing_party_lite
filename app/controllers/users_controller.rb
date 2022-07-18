@@ -10,12 +10,26 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.create(user_params)
-    if @user.save
-      flash[:success] = 'Account Successfully Created'
-      redirect_to "/users/#{@user.id}"
+    # @user = User.create(user_params)
+    # if @user.save
+    #   flash[:success] = 'Account Successfully Created'
+    #   redirect_to "/users/#{@user.id}"
+    # else
+    #   flash[:error] = 'Invalid Entry'
+    #   render 'new'
+    # end
+    if User.find_by(email: params[:email]) == nil
+      if user_params.values.include?("") || user_params[:password] != user_params[:password_confirmation]
+        flash[:error] = "Missing Credentials"
+        render 'new'
+      else
+        user_params[:email] = user_params[:email].downcase
+        new_user = User.create(user_params)
+        flash[:success] = 'Account Successfully Created'
+        redirect_to "/users/#{new_user.id}"
+      end
     else
-      flash[:error] = 'Invalid Entry'
+      flash[:error] = "Invalid Entry"
       render 'new'
     end
   end
