@@ -39,7 +39,7 @@ class UsersController < ApplicationController
 
   def login_user
     user = User.find_by(email: user_params[:email])
-    if user.nil? || !user.authenticate(params[:password])
+    if user.nil? || !user.authenticate(params[:password]) || user_params[:password] != user_params[:password_confirmation]
       flash[:error] = "Invalid Entry"
       render :login_form
     else
