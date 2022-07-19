@@ -58,4 +58,15 @@ RSpec.describe "Movie Deatils/Show Page" do
       expect(page).to have_content("Reviews:")
     end
   end
+
+  describe "Authorization Lesson" do
+    it "redirects visitors to Movie Show, shows message", :vcr do
+      user = User.create(name: 'Drewb', email: 'Drew@testemail.com', password: 'password', password_confirmation: 'password')
+
+      visit "/movies/278"
+      click_button("Create Viewing Party")
+      expect(current_path).to eq("/movies/278")
+      expect(page).to have_content("Please register and/or log in to create Parties")
+    end
+  end
 end

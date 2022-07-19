@@ -4,6 +4,10 @@ class ViewingPartiesController < ApplicationController
 
   def new
     @movie = MovieFacade.create_single_movie(params[:movie_id])
+    if current_user.nil?
+      flash[:error] = "Please register and/or log in to create Parties"
+      redirect_to "/movies/#{@movie.id}"
+    end
   end
 
   def create
