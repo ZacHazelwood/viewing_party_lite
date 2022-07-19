@@ -4,34 +4,48 @@ RSpec.describe "Movie Deatils/Show Page" do
   describe "relocation buttons" do
     before :each do
       @user = User.create!(name: 'Drewb', email: 'Drew@testemail.com', password: 'password', password_confirmation: 'password')
+
+      visit "/"
+      click_link "Login"
+
+      fill_in "Email", with: @user.email
+      fill_in "Password", with: @user.password
+      click_button "Log In"
     end
 
     it "has a button to the new viewing party page", :vcr do
-      visit "/users/#{@user.id}/movies/278"
+      visit "/movies/278"
 
       expect(page).to have_button("Create Viewing Party")
       click_button("Create Viewing Party")
 
-      expect(current_path).to eq("/users/#{@user.id}/movies/278/viewing-party/new")
+      expect(current_path).to eq("/movies/278/viewing-party/new")
     end
 
     it "has a button to return to the discover page", :vcr do
-      visit "/users/#{@user.id}/movies/278"
+      visit "/movies/278"
 
       expect(page).to have_button("Return to Discover")
       click_button("Return to Discover")
 
-      expect(current_path).to eq("/users/#{@user.id}/discover")
+      expect(current_path).to eq("/discover")
     end
   end
 
   describe "movie details" do
     before :each do
       @user = User.create!(name: 'Drewb', email: 'Drew@testemail.com', password: 'password', password_confirmation: 'password')
+
+      visit "/"
+      click_link "Login"
+
+      fill_in "Email", with: @user.email
+      fill_in "Password", with: @user.password
+      click_button "Log In"
     end
 
     it "displays a movies details", :vcr do
-      visit "/users/#{@user.id}/movies/278"
+      visit "/movies/278"
 
       expect(page).to have_content("The Shawshank Redemption's Details Page")
       expect(page).to have_content("Title: The Shawshank Redemption")

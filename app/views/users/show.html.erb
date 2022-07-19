@@ -1,6 +1,6 @@
 <h1><%= @user.name %>'s Dashboard</h1>
 <br>
-<%= button_to "Discover Movies", "/users/#{@user.id}/discover", method: :get %>
+<%= button_to "Discover Movies", "/discover", method: :get %>
 
 <h2><%= @user.name %>'s Invites</h2>
 <div id="invited">
@@ -8,7 +8,7 @@
     <% if party.host != @user.id %>
     <% movie = @movies.find{ |movie| movie.id == party.movie_id } %>
     <% image = @images.find{ |image| image.id == party.movie_id } %>
-      <h3><%= link_to "#{movie.title}", "/users/#{@user.id}/movies/#{party.movie_id}" %></h3>
+      <h3><%= link_to "#{movie.title}", "/movies/#{party.movie_id}" %></h3>
       <img  src="http://image.tmdb.org/t/p/w500/<%=image.file_path%>" width="120" height="150">
       <br>
       Host: <%= party.host_name  %>
@@ -36,7 +36,7 @@
     <% if party.host == @user.id %>
     <% movie = @movies.find{ |movie| movie.id == party.movie_id } %>
     <% image = @images.find{ |image| image.id == party.movie_id } %>
-      <h3><%= link_to "#{movie.title}", "/users/#{@user.id}/movies/#{party.movie_id}" %></h3>
+      <h3><%= link_to "#{movie.title}", "/movies/#{party.movie_id}" %></h3>
       <br>
       <img  src="http://image.tmdb.org/t/p/w500/<%=image.file_path%>" width="120" height="150">
       <br>

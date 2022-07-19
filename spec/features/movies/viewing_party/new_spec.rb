@@ -14,13 +14,27 @@ RSpec.describe "New Party Page" do
     fill_in "Password", with: user.password
     click_button "Log In"
 
-    visit "/users/#{user.id}/movies/278"
+    visit "/"
+    click_link "Login"
+
+    fill_in "Email", with: user2.email
+    fill_in "Password", with: user2.password
+    click_button "Log In"
+
+    visit "/"
+    click_link "Login"
+
+    fill_in "Email", with: user3.email
+    fill_in "Password", with: user3.password
+    click_button "Log In"
+
+    visit "/movies/278"
     click_button "Create Viewing Party"
 
     fill_in "Duration", with: '200'
     fill_in "Start time", with: "2022-12-21 21:12:00"
     check("Alex")
-    check("Geddy")
+    check("Drewb")
     click_button "Submit"
 
     expect(Party.all.length).to eq(party_count+1)

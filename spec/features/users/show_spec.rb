@@ -21,7 +21,7 @@ RSpec.describe "Dashboard Page" do
     visit "/dashboard"
     click_button("Discover Movies")
 
-    expect(current_path).to eq("/users/#{user.id}/discover")
+    expect(current_path).to eq("/discover")
   end
 
   xit 'shows all viewing parties the user is invited or hosting with details', :vcr do
@@ -72,6 +72,6 @@ RSpec.describe "Dashboard Page" do
     visit "/dashboard"
     click_link("The Lord of the Rings")
 
-    expect(current_path).to eq("/users/#{user2.id}/movies/123")
+    expect(current_path).to eq("/movies/123")
   end
 end
