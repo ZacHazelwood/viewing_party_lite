@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe "Movie Deatils/Show Page" do
   describe "relocation buttons" do
     before :each do
-      @user = User.create!(name: 'Drewb', email: 'Drew@testemail.com')
+      @user = User.create!(name: 'Drewb', email: 'Drew@testemail.com', password: 'password', password_confirmation: 'password')
     end
 
     it "has a button to the new viewing party page", :vcr do
@@ -27,7 +27,7 @@ RSpec.describe "Movie Deatils/Show Page" do
 
   describe "movie details" do
     before :each do
-      @user = User.create!(name: 'Drewb', email: 'Drew@testemail.com')
+      @user = User.create!(name: 'Drewb', email: 'Drew@testemail.com', password: 'password', password_confirmation: 'password')
     end
 
     it "displays a movies details", :vcr do

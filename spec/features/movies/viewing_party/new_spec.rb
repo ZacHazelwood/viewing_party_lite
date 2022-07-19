@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe "New Party Page" do
   it 'creates a new viewing party', :vcr do
-    user = User.create(name: 'Drewb', email: 'Drew@testemail.com')
-    user2 = User.create(name: 'Alex', email: 'Alex@testemail.com')
-    user3 = User.create(name: 'Geddy', email: 'Geddy@testemail.com')
+    user = User.create(name: 'Drewb', email: 'Drew@testemail.com', password: 'password', password_confirmation: 'password')
+    user2 = User.create(name: 'Alex', email: 'Alex@testemail.com', password: 'password', password_confirmation: 'password')
+    user3 = User.create(name: 'Geddy', email: 'Geddy@testemail.com', password: 'password', password_confirmation: 'password')
     party_count = Party.all.length
 
     visit "/users/#{user.id}/movies/278"
