@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_action :current_user
+
   def show
     @user = User.find(params[:id])
     @movies = @user.parties.map { |party| MovieFacade.create_single_movie(party.movie_id) }
@@ -25,6 +27,7 @@ class UsersController < ApplicationController
       else
         user_params[:email] = user_params[:email].downcase
         new_user = User.create(user_params)
+        session[:user_id] = new_user.id
         flash[:success] = 'Account Successfully Created'
         redirect_to "/users/#{new_user.id}"
       end
@@ -34,19 +37,19 @@ class UsersController < ApplicationController
     end
   end
 
-  def login_form
-  end
-
-  def login_user
-    user = User.find_by(email: user_params[:email])
-    if user.nil? || !user.authenticate(params[:password]) || user_params[:password] != user_params[:password_confirmation]
-      flash[:error] = "Invalid Entry"
-      render :login_form
-    else
-      flash[:success] = "Welcome #{user.name}"
-      redirect_to "/users/#{user.id}"
-    end
-  end
+  # def login_form
+  # end
+  #
+  # def login_user
+  #   user = User.find_by(email: user_params[:email])
+  #   if user.nil? || !user.authenticate(params[:password]) || user_params[:password] != user_params[:password_confirmation]
+  #     flash[:error] = "Invalid Entry"
+  #     render :login_form
+  #   else
+  #     flash[:success] = "Welcome #{user.name}"
+  #     redirect_to "/users/#{user.id}"
+  #   end
+  # end
 
   private
   def user_params

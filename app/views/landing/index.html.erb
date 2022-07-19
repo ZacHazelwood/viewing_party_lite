@@ -1,7 +1,7 @@
 <h1>Viewing Party</h1>
 <%= link_to "Login", "/login" %>
 <% @users.each do |user| %>
-  <%= link_to "#{user.name}'s Dashboard", "users/#{user.id}" %>
+  <%= link_to "#{user.name}'s Dashboard", "/dashboard" %>
   <br>
 <% end %>
 <%= button_to "Create New User", "users/register", method: :get %>
