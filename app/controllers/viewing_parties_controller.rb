@@ -14,7 +14,7 @@ class ViewingPartiesController < ApplicationController
       PartyUser.create!(user_id: invitee_id, party_id: @party.id)
     end
     PartyUser.create!(user_id: params[:id], party_id: @party.id)
-    redirect_to "/users/#{@user.id}"
+    redirect_to "/dashboard"
   end
 
   private

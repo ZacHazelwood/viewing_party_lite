@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   get '/', to: 'landing#index'
 
   get '/login', to: 'sessions#new'
-  post '/login', to: 'session#create'
+  post '/login', to: 'sessions#create'
 
   get '/users/register', to: 'users#new'
   get '/users/:id/discover', to: 'discover#index'

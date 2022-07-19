@@ -7,6 +7,13 @@ RSpec.describe "New Party Page" do
     user3 = User.create(name: 'Geddy', email: 'Geddy@testemail.com', password: 'password', password_confirmation: 'password')
     party_count = Party.all.length
 
+    visit "/"
+    click_link "Login"
+
+    fill_in "Email", with: user.email
+    fill_in "Password", with: user.password
+    click_button "Log In"
+
     visit "/users/#{user.id}/movies/278"
     click_button "Create Viewing Party"
 

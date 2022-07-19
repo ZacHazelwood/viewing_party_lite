@@ -1,8 +1,10 @@
 class UsersController < ApplicationController
-  before_action :current_user
+# before_action :current_user
+before_action :find_user, only: [:show]
+rescue_from NoMethodError, with: :no_user
 
   def show
-    @user = User.find(params[:id])
+    # @user = User.find_by(session[:user_id])
     @movies = @user.parties.map { |party| MovieFacade.create_single_movie(party.movie_id) }
     @images = @user.parties.map { |party| MovieFacade.create_single_movie_images(party.movie_id) }
   end
@@ -12,14 +14,6 @@ class UsersController < ApplicationController
   end
 
   def create
-    # @user = User.create(user_params)
-    # if @user.save
-    #   flash[:success] = 'Account Successfully Created'
-    #   redirect_to "/users/#{@user.id}"
-    # else
-    #   flash[:error] = 'Invalid Entry'
-    #   render 'new'
-    # end
     if User.find_by(email: params[:email]) == nil
       if user_params.values.include?("") || user_params[:password] != user_params[:password_confirmation]
         flash[:error] = "Missing Credentials"
@@ -29,7 +23,7 @@ class UsersController < ApplicationController
         new_user = User.create(user_params)
         session[:user_id] = new_user.id
         flash[:success] = 'Account Successfully Created'
-        redirect_to "/users/#{new_user.id}"
+        redirect_to "/dashboard"
       end
     else
       flash[:error] = "Invalid Entry"
@@ -37,23 +31,18 @@ class UsersController < ApplicationController
     end
   end
 
-  # def login_form
-  # end
-  #
-  # def login_user
-  #   user = User.find_by(email: user_params[:email])
-  #   if user.nil? || !user.authenticate(params[:password]) || user_params[:password] != user_params[:password_confirmation]
-  #     flash[:error] = "Invalid Entry"
-  #     render :login_form
-  #   else
-  #     flash[:success] = "Welcome #{user.name}"
-  #     redirect_to "/users/#{user.id}"
-  #   end
-  # end
 
   private
   def user_params
     params.permit(:name, :email, :password, :password_confirmation)
-    # params.require(:user).permit(:name, :email)
+  end
+
+  def find_user
+    @user = User.find(session[:user_id])
+  end
+
+  def no_user
+    flash[:notice] = "Invalid Entry"
+    redirect_to '/login'
   end
 end
