@@ -12,34 +12,6 @@ RSpec.describe "Landing Page" do
     click_button("Create New User")
   end
 
-
-  it 'displays name of user' do
-
-    drew = User.create!(name: "Drew Proebstel", email: "drew@turdmail.com", password: 'password', password_confirmation: 'password')
-    alex = User.create!(name: "Zac Hazelwood", email: "zach@turdmail.com", password: 'password', password_confirmation: 'password')
-
-    visit '/'
-
-    expect(page).to have_content("Drew Proebstel")
-    expect(page).to have_content("Zac Hazelwood")
-
-  end
-
-  it 'links to users dashboard' do
-    user = User.create(name: "Drew Proebstel", email: "drew@turdmail.com", password: 'password', password_confirmation: 'password')
-
-    visit "/"
-    click_link "Login"
-
-    fill_in "Email", with: user.email
-    fill_in "Password", with: user.password
-    click_button "Log In"
-
-    visit '/'
-    click_link("Drew Proebstel")
-    expect(current_path).to eq("/dashboard")
-  end
-
   it 'links to landing page' do
     visit '/'
     drew = User.create(name: "Drew Proebstel", email: "drew@turdmail.com", password: 'password', password_confirmation: 'password')
@@ -54,5 +26,59 @@ RSpec.describe "Landing Page" do
     click_link "Login"
 
     expect(current_path).to eq("/login")
+  end
+
+  it 'links to logout' do
+    visit '/'
+
+    expect(page).to have_link("Login")
+    click_link "Login"
+
+    user = User.create!(name: 'Drewb', email: 'Drewtestemail.com', password: 'password', password_confirmation: 'password')
+
+    visit "/"
+    click_link "Login"
+
+    fill_in "Email", with: user.email
+    fill_in "Password", with: user.password
+    click_button "Log In"
+
+    expect(current_path).to eq("/dashboard")
+
+    visit "/"
+    expect(page).to have_content("You are logged in")
+    expect(page).to_not have_link("Login")
+    expect(page).to have_link("Log Out")
+
+    expect(current_path).to eq("/")
+
+    visit "/"
+    click_link("Log Out")
+    expect(page).to have_link("Login")
+  end
+
+  it "only shows other user emails if a user is logged in" do
+    user = User.create(name: 'Drewb', email: 'Drew@testemail.com', password: 'password', password_confirmation: 'password')
+    user2 = User.create(name: 'Alex', email: 'Alex@testemail.com', password: 'password', password_confirmation: 'password')
+    user3 = User.create(name: 'Geddy', email: 'Geddy@testemail.com', password: 'password', password_confirmation: 'password')
+
+    visit "/"
+    expect(page).to_not have_content('Drew@testemail.com')
+    expect(page).to_not have_content('Alex@testemail.com')
+    expect(page).to_not have_content('Geddy@testemail.com')
+
+    # allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user)
+
+    visit "/"
+    click_link "Login"
+
+    fill_in "Email", with: user.email
+    fill_in "Password", with: user.password
+    click_button "Log In"
+
+    visit "/"
+
+    expect(page).to have_content('Alex@testemail.com')
+    expect(page).to have_content('Geddy@testemail.com')
   end
 end

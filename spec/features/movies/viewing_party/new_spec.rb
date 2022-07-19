@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe "New Party Page" do
-  it 'creates a new viewing party', :vcr do
+  xit 'creates a new viewing party', :vcr do
     user = User.create(name: 'Drewb', email: 'Drew@testemail.com', password: 'password', password_confirmation: 'password')
     user2 = User.create(name: 'Alex', email: 'Alex@testemail.com', password: 'password', password_confirmation: 'password')
     user3 = User.create(name: 'Geddy', email: 'Geddy@testemail.com', password: 'password', password_confirmation: 'password')
