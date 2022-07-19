@@ -81,4 +81,12 @@ RSpec.describe "Landing Page" do
     expect(page).to have_content('Alex@testemail.com')
     expect(page).to have_content('Geddy@testemail.com')
   end
+
+  it "redirects visitors to landing, shows message" do
+    user = User.create(name: 'Drewb', email: 'Drew@testemail.com', password: 'password', password_confirmation: 'password')
+
+    visit "/dashboard"
+    expect(current_path).to eq("/")
+    expect(page).to have_content("Please register and/or log in to view Dashboard")
+  end
 end

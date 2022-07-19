@@ -7,6 +7,10 @@ rescue_from NoMethodError, with: :no_user
     # @user = User.find_by(session[:user_id])
     @movies = @user.parties.map { |party| MovieFacade.create_single_movie(party.movie_id) }
     @images = @user.parties.map { |party| MovieFacade.create_single_movie_images(party.movie_id) }
+    # if current_user.nil?
+    #   flash[:error] = "Please register and/or log in to view Dashboard"
+    #   redirect_to "/"
+    # end
   end
 
   def new
@@ -38,7 +42,12 @@ rescue_from NoMethodError, with: :no_user
   end
 
   def find_user
-    @user = User.find(session[:user_id])
+    if current_user.nil?
+      flash[:error] = "Please register and/or log in to view Dashboard"
+      redirect_to "/"
+    else
+      @user = User.find(session[:user_id])
+    end
   end
 
   def no_user
